@@ -14,6 +14,7 @@ cask "scribe" do
   end
 
   app "Scribe.app"
+  binary "#{appdir}/Scribe.app/Contents/MacOS/scribe"
 
   zap trash: [
     "~/.scribe",
