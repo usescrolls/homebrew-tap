@@ -1,17 +1,25 @@
-# Usescrolls Tap
+# useScrolls Tap
 
-## How do I install these formulae?
+Official Homebrew tap for [useScrolls](https://usescrolls.com) tools.
 
-`brew install usescrolls/tap/<formula>`
+## Installation
 
-Or `brew tap usescrolls/tap` and then `brew install <formula>`.
-
-Or, in a `brew bundle` `Brewfile`:
-
-```ruby
-tap "usescrolls/tap"
-brew "<formula>"
+```bash
+brew install usescrolls/tap/scribe
 ```
+
+Or tap first, then install:
+
+```bash
+brew tap usescrolls/tap
+brew install --cask scribe
+```
+
+## Available Casks
+
+| Cask | Description |
+|------|-------------|
+| `scribe` | One-click plugin installation for Claude Code |
 
 ## Documentation
 
