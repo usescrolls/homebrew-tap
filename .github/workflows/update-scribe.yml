@@ -2,8 +2,8 @@ name: Update Scribe Cask
 
 on:
   workflow_dispatch:
-  schedule:
-    - cron: '0 */6 * * *'  # Check every 6 hours
+  repository_dispatch:
+    types: [update-cask]
 
 jobs:
   update:
