@@ -1,8 +1,9 @@
 cask "scribe" do
   version "1.0.0"
-  sha256 "REPLACE_WITH_SHA256"
+  sha256 :no_check
 
-  url "https://github.com/usescrolls/scribe/releases/download/v#{version}/scribe-Installer.dmg"
+  url "https://github.com/usescrolls/scribe/releases/download/v#{version}/scribe-Installer.dmg",
+      verified: "github.com/usescrolls/scribe/"
   name "Scribe"
   desc "One-click plugin installation for Claude Code"
   homepage "https://usescrolls.com/"
