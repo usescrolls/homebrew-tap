@@ -1,0 +1,52 @@
+name: Update Scribe Cask
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '0 */6 * * *'  # Check every 6 hours
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Get latest release
+        id: release
+        run: |
+          LATEST=$(curl -s https://api.github.com/repos/usescrolls/scribe/releases/latest | jq -r '.tag_name')
+          VERSION=${LATEST#v}
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+          echo "Latest version: $VERSION"
+
+      - name: Get current version
+        id: current
+        run: |
+          CURRENT=$(grep 'version "' Casks/scribe.rb | sed 's/.*version "\(.*\)"/\1/')
+          echo "version=$CURRENT" >> $GITHUB_OUTPUT
+          echo "Current version: $CURRENT"
+
+      - name: Update cask if new version
+        if: steps.release.outputs.version != steps.current.outputs.version
+        run: |
+          VERSION="${{ steps.release.outputs.version }}"
+
+          # Download DMG and calculate SHA256
+          curl -L -o scribe-Installer.dmg "https://github.com/usescrolls/scribe/releases/download/v${VERSION}/scribe-Installer.dmg"
+          SHA256=$(shasum -a 256 scribe-Installer.dmg | cut -d ' ' -f 1)
+
+          # Update cask file
+          sed -i "s/version \".*\"/version \"${VERSION}\"/" Casks/scribe.rb
+          sed -i "s/sha256 \".*\"/sha256 \"${SHA256}\"/" Casks/scribe.rb
+
+          echo "Updated to version $VERSION with sha256 $SHA256"
+
+      - name: Commit and push
+        if: steps.release.outputs.version != steps.current.outputs.version
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add Casks/scribe.rb
+          git commit -m "Update scribe to ${{ steps.release.outputs.version }}"
+          git push
