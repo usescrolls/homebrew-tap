@@ -1,6 +1,6 @@
 cask "scribe" do
-  version "1.30.1"
-  sha256 "1d4a584f6f30fd3bf6f7fc4aaafa9ff20f3c025f417e3993f554028851647385"
+  version "1.30.2"
+  sha256 "8adbfbd2ace20e68747cec4e83c20e6265705621e531c034f6357ee657fa401d"
 
   url "https://github.com/usescrolls/scribe/releases/download/v#{version}/scribe-Installer.dmg",
       verified: "github.com/usescrolls/scribe/"
